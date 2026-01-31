@@ -1,0 +1,59 @@
+@import 'tailwindcss';
+
+
+@font-face {
+    font-family: 'Jungle Adventurer';
+    src: url('fonts/JungleAdventurer.ttf') format('truetype');
+}
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    /* fonts */
+    --font-merriweather: "Merriweather Sans", sans-serif;
+    --font-display: 'Jungle Adventurer', cursive;
+
+    /* Colors Variable */
+    /* Primary */
+    --color-primary-50: #D9F0F3;
+    --color-primary-100: #00A8E8;
+    --color-primary-200: #007EA7;
+    --color-primary-300: #0064D4;
+    --color-primary-400: #002758;
+    --color-primary-500: #003459;
+    --color-primary-600: #00171F;
+
+    /* Neutral */
+    --color-neutral-100: #FFFFFF;
+    --color-neutral-200: #F1F1F1;
+    --color-neutral-300: #E8E8E8;
+    --color-neutral-400: #C2C2C2;
+    --color-neutral-500: #9E9C9A;
+    --color-neutral-600: #858381;
+    --color-neutral-700: #61605E;
+    --color-neutral-800: #333231;
+    --color-neutral-900: #000000;
+
+    /* Success */
+    --color-success-300: #18B318;
+    --color-success-50: #E1FAE1;
+
+    /* Yellow-warning */
+    --color-warning-300: #AA9F25;
+    --color-warning-50: #FFFCD9;
+
+    /* Danger */
+    --color-danger-300: #E34C4C;
+    --color-danger-50: #FFE5E5;
+
+    /* Additional */
+    --color-additional-gold : #C0A618;
+    --color-additional-bronze : #CD7F32;
+    --color-additional-silver : #61605E;
+
+    /* Shadows */
+    --shadow-up: 0 -1px 2px rgba(0, 0, 0, 10%);
+}
