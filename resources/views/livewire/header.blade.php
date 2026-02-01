@@ -1,4 +1,4 @@
-<header class="px-4 py-4 flex justify-between">
+<header class="px-4 py-4 flex justify-between m-auto max-w-[560px]">
     <div class="flex items-center font-display gap-2 text-primary-400 text-xl">
         {{-- Back Button --}}
         <button>
@@ -20,13 +20,13 @@
                 <span class="text-neutral-100 text-xl font-display absolute left-[10px] top-[5px]">{{ sprintf('%02d', $this->data['level'] ?? 20) }}</span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-3 min-w-[70px] relative left-[-7px]">
-            {{-- Progress Bar --}}
-            <div
-                class="h-3 rounded-full transition-all  {{$this->getLevelColorClassProperty()}}"
-                style="width: {{ $this->data['xp'] ?? 10 }}%"
-            ></div>
-
-        </div>
+                {{-- Progress Bar --}}
+                <div
+                    class="h-3 rounded-full transition-all  {{$this->getLevelColorClassProperty()}}"
+                    style="width: {{ $this->data['xp'] ?? 10 }}%"
+                >
+                </div>
+            </div>
     @elseif ($this->mode === 'KELAS')
     {{-- Mode Kelas --}}
         <div class="flex gap-4">

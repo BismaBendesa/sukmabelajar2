@@ -20,7 +20,7 @@ class Course extends Component
             'setHeader',
             mode: 'DEFAULT',
             data: [
-                'title' => 'Kelas',
+                'title' => 'Modul Kelas',
                 'level' => 19,
                 'rank' => 1,
                 'xp'    => 50
