@@ -14,19 +14,13 @@
         @livewireStyles
     </head>
     <body>
-        {{-- Flash Message --}}
-        @if (session()->has('success'))
-            <div class="mb-4 rounded-md bg-green-100 text-green-800 px-4 py-2">
-                {{ session('success') }}
-            </div>
-        @endif
-        {{-- navbar --}}
-        <x-navbar></x-navbar>
-        <livewire:header />
+      <div class="flex items-center gap-2 justify-center mt-6">
+        <img src="{{ asset('images/sukmabelajar2-logo.png')}}" alt="logo" class="w-16">
+        <div class="font-display text-primary-300 text-xl">Sukma<span class="text-primary-200">Belajar</span></div>
+      </div>
         {{ $slot }}
 
-        {{-- tab-bar --}}
-        <x-tab-bar></x-tab-bar>
+        
         @livewireScripts
     </body>
 </html>

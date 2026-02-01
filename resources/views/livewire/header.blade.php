@@ -73,7 +73,7 @@
         </div>
     @elseif ($this->mode === 'BUTTON')
     {{-- Mode button tambahan --}}
-    <button>Button tambahan </button>
+    <button wire:click="logout" class="font-display bg-danger-50 text-danger-300 p-2 px-4 rounded-md text-sm">Logout</button>
     @else
         <div class="flex items-center">
             <span class="font-display text-lg mr-1">LV</span>

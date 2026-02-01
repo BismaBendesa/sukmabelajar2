@@ -1,6 +1,6 @@
 <div class="flex gap-10 px-4 justify-between border-t border-neutral-300 py-2 bg-white fixed bottom-0 left-0 right-0 shadow-up lg:hidden">
     {{-- Dashboard Link --}}
-    <a href="" class="flex flex-col justify-center items-center w-[72px]">
+    <a href="/dashboard" class="flex flex-col justify-center items-center w-[72px]">
         @if(request()->is('dashboard'))
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.2929 5.12132C15.6834 4.7308 16.3166 4.7308 16.7071 5.12132L28.2929 16.7071C28.6834 17.0976 29.3166 17.0976 29.7071 16.7071C30.0976 16.3166 30.0976 15.6834 29.7071 15.2929L18.1213 3.70711C16.9497 2.53554 15.0503 2.53554 13.8787 3.70711L2.29289 15.2929C1.90237 15.6834 1.90237 16.3166 2.29289 16.7071C2.68342 17.0976 3.31658 17.0976 3.70711 16.7071L15.2929 5.12132Z" fill="#002758"/>

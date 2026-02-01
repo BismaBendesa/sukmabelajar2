@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class Header extends Component
 {
@@ -12,6 +13,16 @@ class Header extends Component
     public array $data = [];
 
     protected $listeners = ['setHeader'];
+
+    public function logout()
+    {
+        Auth::logout();
+
+        session()->invalidate();
+        session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
 
     public function setHeader($mode, $data = [])
     {
