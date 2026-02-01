@@ -23,22 +23,29 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $role = fake()->randomElement(['mhs', 'dosen']);
+
         return [
-            'name' => fake()->name(),
+            'username' => fake()->unique()->userName(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'password' => bcrypt('password'), // password default
+            'nim' => $role === 'mhs' ? fake()->unique()->numerify('##########') : null,
+            'role' => $role,
+            'level' => fake()->numberBetween(1, 10),
+            'exp' => fake()->numberBetween(0, 1000),
+            'average_score' => fake()->randomFloat(2, 0, 100),
+            'total_study_minutes' => fake()->numberBetween(0, 10000),
+            'login_streak' => fake()->numberBetween(0, 30),
         ];
     }
 
     /**
      * Indicate that the model's email address should be unverified.
      */
-    public function unverified(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
-    }
+    // public function unverified(): static
+    // {
+    //     return $this->state(fn (array $attributes) => [
+    //         'email_verified_at' => null,
+    //     ]);
+    // }
 }
