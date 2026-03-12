@@ -5,7 +5,7 @@
         </div>
     @endif
     <h1 class="text-4xl font-display text-center my-6">Halaman Register SukmaBelajar 2.0</h1>
-    <div class="font-merriweather">
+    <div class="font-merriweather max-w-[560px] m-auto">
         <p class="text-center mb-2 font-light">Pilih Role</p>
         <form class="px-4 mt-6" wire:submit.prevent="store">
             {{-- Role Selection --}}
@@ -34,6 +34,9 @@
                     <p class="font-display tracking-wide text-xl pt-2">Dosen</p>
                 </div>
             </div>
+            <p class="text-sm text-yellow-600  text-center my-2">
+                Dosen Wajib Gunakan email kampus <strong>@unud.ac.id</strong>
+            </p>
             @error('role')
                 <p class="text-danger-300 text-xs mt-1 text-center">{{ $message }}</p>
             @enderror
@@ -50,6 +53,11 @@
             <div class="mb-2">
                 <label for="email" class="text-sm">Email</label>
                 <input type="email" class="w-full border border-neutral-400 px-2 py-1.5 text-sm rounded-md" name="email" wire:model="email">
+                @if($role === 'dosen')
+                    <p class="text-sm text-yellow-600 mt-1">
+                        Gunakan email kampus <strong>@unud.ac.id</strong>
+                    </p>
+                @endif
                 @error('email')
                     <p class="text-danger-300 text-xs mt-1">{{ $message }}</p>
                 @enderror

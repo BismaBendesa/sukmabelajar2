@@ -33,7 +33,12 @@ class Login extends Component
         ])) {
             session()->regenerate();
 
-            return redirect()->route('dashboard');
+            session()->flash('success', 'Login berhasil 🎉');
+            return $this->redirectRoute(
+                Auth::user()->role === 'dosen'
+                    ? 'dashboard.dosen'
+                    : 'dashboard'
+            );
         }
 
         $this->addError('login', 'Email / Username atau password salah.');

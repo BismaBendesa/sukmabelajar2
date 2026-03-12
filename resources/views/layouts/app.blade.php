@@ -15,11 +15,7 @@
     </head>
     <body>
         {{-- Flash Message --}}
-        @if (session()->has('success'))
-            <div class="mb-4 rounded-md bg-green-100 text-green-800 px-4 py-2">
-                {{ session('success') }}
-            </div>
-        @endif
+        <x-flash type="success" timeout="2000"/>
         {{-- navbar --}}
         <x-navbar></x-navbar>
         <livewire:header />

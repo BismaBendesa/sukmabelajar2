@@ -3,9 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Classroom;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -23,7 +24,27 @@ class User extends Authenticatable
         'password',
         'role',
         'nim',
+        'exp', // ONLY FOR MHS
+        'level', // ONLY FOR MHS
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            if ($user->role !== 'mhs') {
+                $user->level = null;
+                $user->exp = null;
+            }
+        });
+    }
+
+    public function classrooms()
+    {
+        return $this->belongsToMany(Classroom::class)
+            ->withPivot('progress')
+            ->withTimestamps();
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.

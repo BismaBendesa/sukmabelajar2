@@ -4,25 +4,24 @@ namespace App\Livewire;
 
 use Livewire\Component;
 
-class Dashboard extends Component
+class ClassLecturer extends Component
 {
-
     public function mount()
     {
         $this->dispatch(
             'setHeader',
-            mode: 'LOGOUT',
-            // mode : DEFAULT | KELAS | MATERI | TEST | LOGOUT | HELP
+            mode: 'HELP',
             data: [
-                'title' => 'Dashboard',
+                'title' => 'Daftar Kelas',
                 'level' => 19,
                 'rank' => 1,
+                'xp'    => 50
             ]
         );
     }
 
     public function render()
     {
-        return view('livewire.dashboard');
+        return view('livewire.class-lecturer');
     }
 }

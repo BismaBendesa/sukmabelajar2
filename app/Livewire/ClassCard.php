@@ -7,7 +7,7 @@ use Livewire\Component;
 class ClassCard extends Component
 {
     // data kelas
-    public $classes;
+    public $class;
     // lack exp data 
     public function render()
     {

@@ -1,4 +1,4 @@
-<div style="background-image: url('{{ asset('images/background-icons.png') }}');">
+<div style="background-image: url('{{ asset('images/background-icons.png') }}');" class="h-screen">
     @if (session()->has('success'))
         <div class="mb-4 rounded-md bg-green-100 text-green-800 px-4 py-2">
             {{ session('success') }}
@@ -6,7 +6,7 @@
     @endif
     <h1 class="text-4xl font-display text-center my-6">Halaman Login SukmaBelajar 2.0</h1>
 
-    <form wire:submit.prevent="submit" class="px-4">
+    <form wire:submit.prevent="submit" class="px-4 max-w-[560px] m-auto">
         {{-- Username --}}
         <div class="mb-2">
             <label for="username" class="text-sm">Email/Nama Pengguna</label>
@@ -61,6 +61,6 @@
             <span wire:loading.remove>Login</span>
             <span wire:loading>Logging in...</span>
         </button>
-        <a href="/register" class="block text-center w-full bg-primary-50 text-primary-300 py-2 rounded-md mt-2 font-display shadow-card text-xl">Belum punya akun? Register</a>
+        <a href="/daftar" class="block text-center w-full bg-primary-50 text-primary-300 py-2 rounded-md mt-2 font-display shadow-card text-xl">Belum punya akun? Register</a>
     </form>
 </div>

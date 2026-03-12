@@ -22,8 +22,26 @@ class Register extends Component
     {
         return [
             'role' => 'required|in:mhs,dosen',
-            'username' => 'required|min:3',
-            'email' => 'required|email',
+            'username' => 'required|min:3|unique:users,username',
+            'email' => [
+                'required',
+                'email',
+                'unique:users,email',
+                function ($attribute, $value, $fail) {
+                    if ($this->role === 'dosen') {
+
+                        // Allow bypass in local environment
+                        if (app()->environment('local')) {
+                            return;
+                        }
+
+                        if (!str_ends_with($value, '@unud.ac.id')) {
+                            $fail('Dosen wajib menggunakan email kampus (@unud.ac.id).');
+                        }
+                    }
+                },
+            ],
+
             'nim' => 'required|min:5',
             'password' => 'required|min:8|confirmed',
         ];
@@ -40,15 +58,24 @@ class Register extends Component
                 'email' => $validated['email'],
                 'nim' => $validated['nim'],
                 'password' => Hash::make($validated['password']),
+
+                // LEVEL SYSTEM RULE
+                'level' => $validated['role'] === 'mhs' ? 1 : null,
+                'exp'    => $validated['role'] === 'mhs' ? 0 : null,
             ]);
 
             Auth::login($user);
 
             session()->flash('success', 'Registrasi berhasil 🎉');
-            return redirect()->route('dashboard');
+            return $this->redirectRoute(
+                Auth::user()->role === 'dosen'
+                    ? 'dashboard.dosen'
+                    : 'dashboard'
+            );
         } catch (\Throwable $e) {
             report($e);
-            $this->addError('database', 'Gagal menyimpan data. Silakan coba lagi.');
+            // dd($e->getMessage(), $e->getTraceAsString());
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

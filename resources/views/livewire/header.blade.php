@@ -71,9 +71,11 @@
         <div>
             timer
         </div>
-    @elseif ($this->mode === 'BUTTON')
-    {{-- Mode button tambahan --}}
+    @elseif ($this->mode === 'LOGOUT')
+    {{-- Mode button logout --}}
     <button wire:click="logout" class="font-display bg-danger-50 text-danger-300 p-2 px-4 rounded-md text-sm">Logout</button>
+    @elseif ($this->mode === 'HELP')
+        <a href="" class="block font-display bg-neutral-300 text-neutral-900 p-2 px-4 rounded-md text-sm shadow-card">Bantuan</a>
     @else
         <div class="flex items-center">
             <span class="font-display text-lg mr-1">LV</span>
@@ -92,4 +94,6 @@
 
         </div>
     @endif
+
+    {{-- Mode button help --}}
 </header>
