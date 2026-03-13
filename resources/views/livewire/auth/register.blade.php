@@ -7,7 +7,7 @@
     <h1 class="text-4xl font-display text-center my-6">Halaman Register SukmaBelajar 2.0</h1>
     <div class="font-merriweather max-w-[560px] m-auto">
         <p class="text-center mb-2 font-light">Pilih Role</p>
-        <form class="px-4 mt-6" wire:submit.prevent="store">
+        <form class="px-4 my-6 " wire:submit.prevent="store">
             {{-- Role Selection --}}
             <div class="flex items-center justify-center gap-4 ">
                 <div
