@@ -30,5 +30,7 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
 });
 
 
+Route::view('/onboarding', 'onboarding.index')->name('onboarding');
+
 Route::get('/daftar', Register::class);
 Route::get('/login', Login::class)->name('login');
