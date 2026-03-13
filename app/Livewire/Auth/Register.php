@@ -42,7 +42,7 @@ class Register extends Component
                 },
             ],
 
-            'nim' => 'required|min:5',
+            'nim' => 'required|min:5|unique:users,nim',
             'password' => 'required|min:8|confirmed',
         ];
     }
