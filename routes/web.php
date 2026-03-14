@@ -11,6 +11,24 @@ use App\Livewire\DashboardDosen;
 use App\Livewire\KelasDosen;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Auth;
+
+Route::get('/', function () {
+
+  if (Auth::check()) {
+
+    $user = Auth::user();
+
+    if ($user->role === 'dosen') {
+      return redirect()->route('dashboard.dosen');
+    }
+
+    if ($user->role === 'mhs') {
+      return redirect()->route('dashboard');
+    }
+  }
+  return view('landing-page.index');
+});
 Route::get('/kelas', Classroom::class)->middleware('auth')->name('classes');
 Route::get('/kelas/modul', Course::class)->middleware('auth')->name('course');
 
