@@ -8,6 +8,7 @@
     <div class="font-merriweather max-w-[560px] m-auto">
         <p class="text-center mb-2 font-light">Pilih Role</p>
         <form class="px-4 my-6 " wire:submit.prevent="store">
+            @csrf
             {{-- Role Selection --}}
             <div class="flex items-center justify-center gap-4 ">
                 <div

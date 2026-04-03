@@ -26,6 +26,7 @@ class User extends Authenticatable
         'nim',
         'exp', // ONLY FOR MHS
         'level', // ONLY FOR MHS
+        'verification_code',
     ];
 
     protected static function booted()

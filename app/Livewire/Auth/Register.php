@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyEmailCode;
 
 class Register extends Component
 {
@@ -52,30 +54,41 @@ class Register extends Component
         $validated = $this->validate();
 
         try {
+
+            $verificationCode = rand(100000, 999999);
+
             $user = User::create([
                 'role' => $validated['role'],
                 'username' => $validated['username'],
                 'email' => $validated['email'],
                 'nim' => $validated['nim'],
                 'password' => Hash::make($validated['password']),
+                'verification_code' => $verificationCode,
 
                 // LEVEL SYSTEM RULE
                 'level' => $validated['role'] === 'mhs' ? 1 : null,
                 'exp'    => $validated['role'] === 'mhs' ? 0 : null,
             ]);
 
-            Auth::login($user);
-
-            session()->flash('success', 'Registrasi berhasil 🎉');
-            return $this->redirectRoute(
-                Auth::user()->role === 'dosen'
-                    ? 'dashboard.dosen'
-                    : 'dashboard'
+            // Send email verification
+            Mail::to($user->email)->send(
+                new VerifyEmailCode($verificationCode)
             );
+
+            session(['user_id' => $user->id]);
+
+            return $this->redirectRoute('verification.notice');
+
+            // session()->flash('success', 'Registrasi berhasil 🎉');
+            // return $this->redirectRoute(
+            //     Auth::user()->role === 'dosen'
+            //         ? 'dashboard.dosen'
+            //         : 'dashboard'
+            // );
         } catch (\Throwable $e) {
             report($e);
-            // dd($e->getMessage(), $e->getTraceAsString());
-            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            dd($e->getMessage(), $e->getTraceAsString());
+            // return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

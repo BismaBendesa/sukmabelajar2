@@ -4,7 +4,7 @@ use App\Livewire\Course;
 use App\Livewire\Classes;
 use App\Livewire\Dashboard;
 use App\Livewire\Auth\Login;
-use App\Livewire\Auth\Register;
+use App\Livewire\Auth\VerifyEmail;
 use App\Livewire\ClassLecturer;
 use App\Livewire\Classroom;
 use App\Livewire\DashboardDosen;
@@ -29,6 +29,9 @@ Route::get('/', function () {
   }
   return view('landing-page.index');
 });
+
+Route::get('/verify-email', VerifyEmail::class)->name('verification.notice');
+
 Route::get('/kelas', Classroom::class)->middleware('auth')->name('classes');
 Route::get('/kelas/modul', Course::class)->middleware('auth')->name('course');
 
@@ -37,7 +40,7 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
     ->name('dashboard.dosen');
 });
 
-Route::middleware(['auth', 'role:mhs'])->group(function () {
+Route::middleware(['auth', 'role:mhs', 'verified'])->group(function () {
   Route::get('/dashboard/mahasiswa', Dashboard::class)
     ->name('dashboard');
 });
@@ -50,5 +53,5 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
 
 Route::view('/onboarding', 'onboarding.index')->name('onboarding');
 
-Route::get('/daftar', Register::class);
+Route::get('/daftar', \App\Livewire\Auth\Register::class);
 Route::get('/login', Login::class)->name('login');
