@@ -88,6 +88,10 @@ $historyRecord = true;
     @endif
 
     {{-- Tombol Navigasi --}}
-
+    <div class="absolute bottom-0 right-0 left-0 w-full p-4 shadow-up">
+        <button class="bg-primary-300 text-white py-2 px-4 rounded-md hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 w-full font-display text-xl tracking-wide active:translate-y-1 duration-300 shadow-button">
+            Mulai Materi
+        </button>
+    </div>
     </div>
 </div>
