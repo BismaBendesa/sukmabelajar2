@@ -59,4 +59,5 @@
     --shadow-up: 0 -4px 8px rgba(0, 0, 0, 15%);
     --shadow-card: 0 2px 0px var(--color-neutral-300);
     --shadow-button: 0 4px 8px rgba(0, 0, 0, 10%);
+    --shadow-module-card: 0 4px 4px rgba(0,0,0,0.2)
 }

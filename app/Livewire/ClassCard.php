@@ -11,6 +11,6 @@ class ClassCard extends Component
     // lack exp data 
     public function render()
     {
-        return view('livewire.class-card');
+        return view('livewire.courses.class-card');
     }
 }

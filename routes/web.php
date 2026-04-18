@@ -1,17 +1,18 @@
 <?php
 
-use App\Livewire\Course;
-use App\Livewire\Classes;
-use App\Livewire\Dashboard;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\VerifyEmail;
+use App\Livewire\Classes;
 use App\Livewire\ClassLecturer;
 use App\Livewire\Classroom;
+use App\Livewire\Course;
+use App\Livewire\Courses\ClassShow;
+use App\Livewire\Dashboard;
 use App\Livewire\DashboardDosen;
 use App\Livewire\KelasDosen;
-use Illuminate\Support\Facades\Route;
-
+use App\Livewire\Modules\ModulesShow;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
@@ -55,3 +56,6 @@ Route::view('/onboarding', 'onboarding.index')->name('onboarding');
 
 Route::get('/daftar', \App\Livewire\Auth\Register::class);
 Route::get('/login', Login::class)->name('login');
+
+Route::get('/kelas/{slug}', ClassShow::class)->name('classes.show');
+Route::get('/kelas/{slug}/modul/{moduleSlug}', ModulesShow::class)->name('modules.show');

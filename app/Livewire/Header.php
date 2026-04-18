@@ -14,6 +14,12 @@ class Header extends Component
 
     protected $listeners = ['setHeader'];
 
+    public function mount($data = [])
+    {
+        $this->data = $data;
+        $this->mode = $data['mode'] ?? 'default';
+    }
+
     public function logout()
     {
         Auth::logout();
@@ -24,12 +30,12 @@ class Header extends Component
         return redirect()->route('login');
     }
 
-    public function setHeader($mode, $data = [])
-    {
-        $this->mode = $mode;
-        $this->data = $data;
-        // data bisa berisi title, subtitle, dll tergantung mode
-    }
+    // public function setHeader($mode, $data = [])
+    // {
+    //     $this->mode = $mode;
+    //     $this->data = $data;
+    //     // data bisa berisi title, subtitle, dll tergantung mode
+    // }
 
     // Variable color based on level
     protected function levelToColorVarProperty(int $level): string

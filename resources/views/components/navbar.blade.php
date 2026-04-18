@@ -1,13 +1,13 @@
-<div class="px-4 pt-4 pb-2 flex items-center justify-between border-b border-gray-200 max-w-[1440px] mx-auto">
+<div class="px-4 pt-4 pb-2 flex items-center justify-between border-b border-gray-200 max-w-[1024px] mx-auto">
     {{-- Target to dashboard --}}
     <a href="" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
-        <img src="{{ asset('./images/sukmabelajar2-logo.png') }}" alt="Logo" class="h-10 w-[36px] object-contain">
-        <div class="font-display text-primary-300 text-xl">Sukma<span class="text-primary-200">Belajar</span></div>
+        <img src="{{ asset('./images/sukmabelajar2-logo.png') }}" alt="Logo" class="h-10 w-24 object-contain">
+        {{-- <div class="font-display text-primary-300 text-xl">Sukma<span class="text-primary-200">Belajar</span></div> --}}
     </a>
 
     <div class="nav-desktop lg:flex hidden justify-center gap-8">
         {{-- Dashboard Link --}}
-        <a href="" class="flex gap-1 justify-center items-center">
+        <a href="/dashboard/mahasiswa" class="flex gap-1 justify-center items-center">
             @if (request()->is('dashboard*'))
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.2929 5.12132C15.6834 4.7308 16.3166 4.7308 16.7071 5.12132L28.2929 16.7071C28.6834 17.0976 29.3166 17.0976 29.7071 16.7071C30.0976 16.3166 30.0976 15.6834 29.7071 15.2929L18.1213 3.70711C16.9497 2.53554 15.0503 2.53554 13.8787 3.70711L2.29289 15.2929C1.90237 15.6834 1.90237 16.3166 2.29289 16.7071C2.68342 17.0976 3.31658 17.0976 3.70711 16.7071L15.2929 5.12132Z" fill="#002758"/>
@@ -22,7 +22,6 @@
             @endif
         </a>
         {{-- Course Link --}}
-        
         <a href="/kelas" class="flex gap-1 justify-center items-center">
             @if(request()->is('kelas*'))
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

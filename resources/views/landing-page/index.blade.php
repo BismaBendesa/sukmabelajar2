@@ -66,8 +66,8 @@
 {{-- Footer --}}
   <div class="flex justify-between items-center px-4 mt-6 max-w-[1440px] m-auto border-t border-neutral-300 py-10">
     <div class="flex items-center gap-2 justify-center">
-      <img src="{{ asset('images/sukmabelajar2-logo.png')}}" alt="logo" class="w-16">
-      <div class="font-display text-primary-300 text-xl">Sukma<span class="text-primary-200">Belajar</span></div>
+      <img src="{{ asset('images/sukmabelajar2-logo.png')}}" alt="logo" class="w-24">
+      {{-- <div class="font-display text-primary-300 text-xl">Sukma<span class="text-primary-200">Belajar</span></div> --}}
     </div>
     <a href="/onboarding" class="block bg-primary-400 py-2 md:px-10 px-4 rounded-sm shadow-button font-display text-neutral-100 tracking-wider text-xl">Register</a>
   </div>

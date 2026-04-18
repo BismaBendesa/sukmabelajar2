@@ -18,16 +18,16 @@ class Classroom extends Component
     // Header Data
     public function mount()
     {
-        $this->dispatch(
-            'setHeader',
-            mode: 'DEFAULT',
-            data: [
-                'title' => 'Kelas',
-                'level' => 19,
-                'rank' => 1,
-                'xp'    => 50
-            ]
-        );
+        //     $this->dispatch(
+        //         'setHeader',
+        //         mode: 'DEFAULT',
+        //         data: [
+        //             'title' => 'Kelas',
+        //             'level' => 19,
+        //             'rank' => 1,
+        //             'xp'    => 50
+        //         ]
+        //     );
 
         // $this->classData = Auth::user()->classrooms;
         // initial load of user's classes
@@ -91,11 +91,41 @@ class Classroom extends Component
 
     public function render()
     {
-        return view('livewire.classroom', [
+        return view('livewire.courses.classroom')->layout('layouts.app', [
             //query data user
             'data' => User::latest()->get(),
             //query data kelas
             'classData' => Auth::user()->classrooms()->latest()->get(),
+            'header' => [
+                'title' => 'Kelas',
+                'level' => 19,
+                'rank' => 1,
+                'xp'   => 50
+            ]
         ]);
+    }
+    // public function show($slug)
+    // {
+    //     $class = ClassroomModel::where('slug', $slug)
+    //         ->firstOrFail();
+    //     // $this->title = "Detail Kelas";
+    //     // $this->dispatch(
+    //     //     'setHeader',
+    //     //     mode: 'DEFAULT',
+    //     //     data: [
+    //     //         'title' => $this->title,
+    //     //         'level' => 19,
+    //     //         'rank' => 1,
+    //     //         'xp'    => 50
+    //     //     ]
+    //     // );
+    //     return view('livewire.courses.class-show', [
+    //         'class' => $class,
+    //         'title' => 'Detail Kelas',
+    //     ]);
+    // }
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }
