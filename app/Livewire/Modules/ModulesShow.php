@@ -14,6 +14,11 @@ class ModulesShow extends Component
         $this->module = ClassroomModel::where('slug', $slug)
             ->firstOrFail()
             ->modules()
+            ->with([
+                'material',   // module_materials
+                'test',       // module_tests
+                'pages' => fn($q) => $q->orderBy('position'),
+            ])
             ->where('slug', $moduleSlug)
             ->firstOrFail();
     }

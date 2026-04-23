@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Classes;
 use App\Models\Classroom;
-use Illuminate\Database\Seeder;
+use App\Models\User;
+use Database\Seeders\DemoModuleSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,8 +22,10 @@ class DatabaseSeeder extends Seeder
 
         User::factory(5)->create();
         // Classroom::factory(5)->create();
-        Classroom::factory(5)
-            ->withModules(5)
+        Classroom::factory(3)
+            ->withModules(3)
             ->create();
+
+        // $this->call(DemoModuleSeeder::class);
     }
 }

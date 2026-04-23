@@ -26,4 +26,19 @@ class Module extends Model
     {
         return $this->belongsTo(Classroom::class);
     }
+    // one to one relation with ModuleMaterial model
+    public function material()
+    {
+        return $this->hasOne(ModuleMaterial::class);
+    }
+    // one to one relation with ModuleTest model
+    public function test()
+    {
+        return $this->hasOne(ModuleTest::class);
+    }
+    // one to many relation with Page model
+    public function pages()
+    {
+        return $this->hasMany(Page::class)->orderBy('position');
+    }
 }

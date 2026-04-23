@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Classroom;
+use App\Models\UserAnswer;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -38,12 +39,18 @@ class User extends Authenticatable
             }
         });
     }
-
+    // many to many relation with Classroom model
     public function classrooms()
     {
         return $this->belongsToMany(Classroom::class)
             ->withPivot('progress')
             ->withTimestamps();
+    }
+
+    // one to many relation with UserAnswer model
+    public function answers()
+    {
+        return $this->hasMany(UserAnswer::class);
     }
 
 

@@ -59,3 +59,4 @@ Route::get('/login', Login::class)->name('login');
 
 Route::get('/kelas/{slug}', ClassShow::class)->name('classes.show');
 Route::get('/kelas/{slug}/modul/{moduleSlug}', ModulesShow::class)->name('modules.show');
+Route::get('/classrooms/{slug}/modules/{moduleSlug}/content', \App\Livewire\Modules\ModuleContent::class)->name('modules.content');

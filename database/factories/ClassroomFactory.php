@@ -37,6 +37,11 @@ class ClassroomFactory extends Factory
         return $this->has(
             Module::factory()
                 ->count($count)
+                ->state(function ($attributes, $classroom) {
+                    return [
+                        'classroom_id' => $classroom->id
+                    ];
+                })
                 ->sequence(fn($sequence) => [
                     'position' => $sequence->index + 1,
                 ]),

@@ -1,4 +1,4 @@
-<header class="px-4 py-4 flex justify-between m-auto max-w-[1024px] items-center">
+<header class="px-4 py-4 flex justify-between m-auto max-w-[1024px] items-center gap-4">
     <div class="flex items-center font-display gap-2 text-primary-400 text-xl">
         {{-- Back Button --}}
         <button class="cursor-pointer" onclick="history.back()">
@@ -58,7 +58,7 @@
         </div>
     @elseif ($this->mode === 'MATERI')
     {{-- Mode Modul Materi --}}
-        <div>
+        <div class="min-w-[55px]">
             {{-- current page --}}
             <span>01</span>
             /
