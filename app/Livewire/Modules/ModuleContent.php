@@ -5,6 +5,7 @@ namespace App\Livewire\Modules;
 use App\Models\Classroom;
 use App\Models\Page;
 use Livewire\Component;
+use Carbon\Carbon;
 
 class ModuleContent extends Component
 {
@@ -31,6 +32,20 @@ class ModuleContent extends Component
             ->firstOrFail();
 
         $this->pages = $this->module->pages->values()->toArray();
+
+        if ($this->module->type !== 'materi') {
+            $timeLimit = $this->module->test?->time_limit_minutes;
+
+            if ($timeLimit) {
+                if (!session()->has('test_end_time_' . $this->module->id)) {
+                    $endTime = Carbon::now()->addMinutes($timeLimit);
+
+                    session([
+                        'test_end_time_' . $this->module->id => $endTime->timestamp
+                    ]);
+                }
+            }
+        }
     }
 
     // Only for non material navigation
@@ -137,6 +152,7 @@ class ModuleContent extends Component
                 'mode' => $this->module->type === 'materi' ? 'MATERI' : 'TEST', // will have logic here if Materi and If test
                 'currentPage' => $this->currentPageIndex + 1,
                 'totalPages' => count($this->pages),
+                'endTime' => session('test_end_time_' . $this->module->id),
             ]
         ]);
     }

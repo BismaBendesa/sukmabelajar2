@@ -65,9 +65,13 @@
         </div>
 
     @elseif ($this->mode === 'TEST')
-    {{-- Mode Test (Kuis, UTS, UAS) --}}
-        <div>
-            timer
+        {{-- Mode Test (Kuis, UTS, UAS) --}}
+        <div 
+            x-data="timer({{ $data['endTime'] ?? 'null' }})"
+            x-init="start()"
+            class="font-merriweather tracking-wider text-lg"
+            >
+                <span x-text="formatted"></span>
         </div>
     @elseif ($this->mode === 'LOGOUT')
     {{-- Mode button logout --}}
@@ -93,7 +97,50 @@
 
         </div>
     @endif
-    
+    <script>
+        function timer(endTime) {
+            return {
+                remaining: 0,
+                formatted: '00:00',
 
+                start() {
+                    if (!endTime) return;
+
+                    this.update();
+
+                    setInterval(() => {
+                        this.update();
+                    }, 1000);
+                },
+
+                update() {
+                    const now = Math.floor(Date.now() / 1000);
+                    this.remaining = endTime - now;
+
+                    if (this.remaining <= 0) {
+                        this.remaining = 0;
+                        this.formatted = "00:00";
+                        return;
+                    }
+
+                    const hours = Math.floor(this.remaining / 3600);
+                    const minutes = Math.floor((this.remaining % 3600) / 60);
+                    const seconds = this.remaining % 60;
+
+                    // ✅ Conditional format
+                    if (hours > 0) {
+                        this.formatted =
+                            String(hours).padStart(2, '0') + ':' +
+                            String(minutes).padStart(2, '0') + ':' +
+                            String(seconds).padStart(2, '0');
+                    } else {
+                        this.formatted =
+                            String(minutes).padStart(2, '0') + ':' +
+                            String(seconds).padStart(2, '0');
+                    }
+                }
+            }
+        }
+        </script>
     {{-- Mode button help --}}
 </header>
