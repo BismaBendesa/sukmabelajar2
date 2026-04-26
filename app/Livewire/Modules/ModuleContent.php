@@ -3,12 +3,14 @@
 namespace App\Livewire\Modules;
 
 use App\Models\Classroom;
+use App\Models\Page;
 use Livewire\Component;
 
 class ModuleContent extends Component
 {
     public $module;
     public $pages = [];
+    public $raguRagu = [];
     public $currentPageIndex = 0;
 
     public $selectedAnswer = null;
@@ -30,6 +32,20 @@ class ModuleContent extends Component
 
         $this->pages = $this->module->pages->values()->toArray();
     }
+
+    // Only for non material navigation
+    public function goToPage($targetId)
+    {
+        // Find the array index where the 'id' matches the clicked targetId
+        foreach ($this->pages as $index => $p) {
+            if ($p['id'] == $targetId) {
+                $this->resetState(); // Reset answers/explanations
+                $this->currentPageIndex = $index;
+                return;
+            }
+        }
+    }
+
 
     public function getPageProperty()
     {
@@ -66,6 +82,16 @@ class ModuleContent extends Component
         $this->isCorrect = $correct && $correct['id'] == $this->selectedAnswer;
 
         $this->showExplanation = true;
+    }
+    public function toggleRaguRagu($questionId)
+    {
+        if (in_array($questionId, $this->raguRagu)) {
+            // Jika sudah ada, hapus (uncheck)
+            $this->raguRagu = array_diff($this->raguRagu, [$questionId]);
+        } else {
+            // Jika belum ada, tambahkan
+            $this->raguRagu[] = $questionId;
+        }
     }
 
     private function resetState()
