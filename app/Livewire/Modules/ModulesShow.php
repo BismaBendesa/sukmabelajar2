@@ -33,7 +33,8 @@ class ModulesShow extends Component
                 'level' => 19,
                 'rank' => 1,
                 'xp'   => 50,
-                'mode' => 'MATERI'
+                'mode' => $this->module->type === 'materi' ? 'MATERI' : 'TEST',
+                'totalPages' => count($this->module->pages),
             ]
         ]);
     }

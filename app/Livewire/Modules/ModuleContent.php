@@ -58,6 +58,11 @@ class ModuleContent extends Component
             $this->resetState();
             $this->currentPageIndex++;
         }
+        $this->dispatch(
+            'update-header-pages',
+            currentPage: $this->currentPageIndex + 1,
+            totalPages: count($this->pages)
+        );
     }
 
     public function prev()
@@ -66,6 +71,11 @@ class ModuleContent extends Component
             $this->resetState();
             $this->currentPageIndex--;
         }
+        $this->dispatch(
+            'update-header-pages',
+            currentPage: $this->currentPageIndex + 1,
+            totalPages: count($this->pages)
+        );
     }
 
     public function submitAnswer()
@@ -94,6 +104,18 @@ class ModuleContent extends Component
         }
     }
 
+    // untuk progress bar di header
+    public function updatedAnswers()
+    {
+        // Hitung progres
+        $total = count($this->allQuestions);
+        $answered = collect($this->answers)->filter()->count();
+        $percentage = ($answered / $total) * 100;
+
+        // Kirim event ke komponen lain
+        $this->dispatch('update-progress', progress: $percentage);
+    }
+
     private function resetState()
     {
         $this->selectedAnswer = null;
@@ -103,7 +125,6 @@ class ModuleContent extends Component
 
     public function render()
     {
-
         return view('livewire.modules.module-content')->layout('layouts.app', [
             'showNavbar' => false,
             'module' => $this->module,
@@ -113,7 +134,9 @@ class ModuleContent extends Component
                 'level' => 19,
                 'rank' => 1,
                 'xp'   => 50,
-                'mode' => 'MATERI' // will have logic here if Materi and If test
+                'mode' => $this->module->type === 'materi' ? 'MATERI' : 'TEST', // will have logic here if Materi and If test
+                'currentPage' => $this->currentPageIndex + 1,
+                'totalPages' => count($this->pages),
             ]
         ]);
     }

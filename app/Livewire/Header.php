@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Auth;
 
 class Header extends Component
@@ -13,11 +14,28 @@ class Header extends Component
     public array $data = [];
 
     protected $listeners = ['setHeader'];
+    public $currentProgress = 0; // Default 0%
 
     public function mount($data = [])
     {
         $this->data = $data;
         $this->mode = $data['mode'] ?? 'default';
+        $this->data['currentPage'] = $data['currentPage'] ?? 1;
+        $this->data['totalPages'] = $data['totalPages'] ?? 1;
+    }
+
+    // Daftarkan listener dari progres yang dikirim oleh ModuleContent
+    #[On('update-progress')]
+    public function refreshProgress($progress)
+    {
+        $this->currentProgress = $progress;
+    }
+
+    #[On('update-header-pages')]
+    public function updatePages($currentPage, $totalPages)
+    {
+        $this->data['currentPage'] = $currentPage;
+        $this->data['totalPages'] = $totalPages;
     }
 
     public function logout()

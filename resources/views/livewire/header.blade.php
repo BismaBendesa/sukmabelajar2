@@ -59,11 +59,9 @@
     @elseif ($this->mode === 'MATERI')
     {{-- Mode Modul Materi --}}
         <div class="min-w-[55px]">
-            {{-- current page --}}
-            <span>01</span>
+            <span>{{ str_pad($data['currentPage'], 2, '0', STR_PAD_LEFT) }}</span>
             /
-            {{-- Total Page modul materi --}}
-            <span>10</span>
+            <span>{{ str_pad($data['totalPages'], 2, '0', STR_PAD_LEFT) }}</span>
         </div>
 
     @elseif ($this->mode === 'TEST')
@@ -89,8 +87,9 @@
             {{-- Progress Bar --}}
             <div
                 class="h-3 rounded-full transition-all  {{$this->getLevelColorClassProperty()}}"
-                style="width: {{ $this->data['xp'] ?? 10 }}%"
-            ></div>
+                style="width: {{ $this->currentProgress }}%"
+            >
+        </div>
 
         </div>
     @endif
