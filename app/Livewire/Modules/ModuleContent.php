@@ -12,6 +12,7 @@ class ModuleContent extends Component
     public $module;
     public $pages = [];
     public $raguRagu = [];
+    public $answers = []; // Menyimpan jawaban untuk semua pertanyaan
     public $currentPageIndex = 0;
 
     public $selectedAnswer = null;
@@ -120,16 +121,16 @@ class ModuleContent extends Component
     }
 
     // untuk progress bar di header
-    public function updatedAnswers()
-    {
-        // Hitung progres
-        $total = count($this->allQuestions);
-        $answered = collect($this->answers)->filter()->count();
-        $percentage = ($answered / $total) * 100;
+    // public function updatedAnswers()
+    // {
+    //     // Hitung progres
+    //     $total = count($this->allQuestions);
+    //     $answered = collect($this->answers)->filter()->count();
+    //     $percentage = ($answered / $total) * 100;
 
-        // Kirim event ke komponen lain
-        $this->dispatch('update-progress', progress: $percentage);
-    }
+    //     // Kirim event ke komponen lain
+    //     $this->dispatch('update-progress', progress: $percentage);
+    // }
 
     private function resetState()
     {

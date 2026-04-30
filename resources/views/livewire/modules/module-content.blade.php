@@ -4,7 +4,7 @@
         preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/', $url, $matches);
         return $matches[1] ?? null;
     }
-
+    $isMateri = $module['type'] === 'materi';
 ?>
 <div>
     @php $page = $this->page; @endphp
@@ -170,12 +170,39 @@
                 {{ $page['question']['question_text'] }}
             </h3>
 
-            @foreach($page['question']['options'] as $opt)
+            {{-- @foreach($page['question']['options'] as $opt)
                 <div class="mt-2 p-3 flex items-center gap-2 border border-neutral-400 rounded-md">
                     <input type="radio"
                         wire:model="selectedAnswer"
                         wire:click="submitAnswer"
                         value="{{ $opt['id'] }}">
+                    {{ $opt['content']['text'] ?? '' }}
+                </div>
+            @endforeach --}}
+
+            @foreach($page['question']['options'] as $opt)
+                <div class="mt-2 p-3 flex items-center gap-2 border border-neutral-400 rounded-md cursor-pointer"
+                    @click="$wire.set(
+                    '{{ $isMateri ? 'selectedAnswer' : "answers.$page[id]" }}', 
+                    {{ $opt['id'] }}
+                    )"
+                >
+
+                    <input type="radio"
+                        name="question_{{ $page['id'] }}"
+                        {{-- Shared --}}
+                        value="{{ $opt['id'] }}"
+
+                        {{-- ✅ MATERI --}}
+                        @if($isMateri)
+                            wire:model="selectedAnswer"
+                            wire:click="submitAnswer"
+                        @else
+                        {{-- ✅ TEST --}}
+                            wire:model="answers.{{ $page['id'] }}"
+                        @endif
+                    >
+
                     {{ $opt['content']['text'] ?? '' }}
                 </div>
             @endforeach
