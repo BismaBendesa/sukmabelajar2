@@ -179,13 +179,52 @@
                     {{ $opt['content']['text'] ?? '' }}
                 </div>
             @endforeach --}}
-
+            
+            @php
+                $selected = $isMateri 
+                ? $selectedAnswer 
+                : ($answers[$page['id']] ?? null);
+                $isLocked = $isMateri && $showExplanation;
+            @endphp
             @foreach($page['question']['options'] as $opt)
                 <div class="mt-2 p-3 flex items-center gap-2 border border-neutral-400 rounded-md cursor-pointer"
-                    @click="$wire.set(
+                    {{-- @click="$wire.set(
                     '{{ $isMateri ? 'selectedAnswer' : "answers.$page[id]" }}', 
                     {{ $opt['id'] }}
-                    )"
+                    )" --}}
+
+
+                    @click="
+                    @if($isMateri)
+                        $wire.set('selectedAnswer', {{ $opt['id'] }});
+                        $wire.submitAnswer();
+                    @else
+                        $wire.set('answers.{{ $page['id'] }}', {{ $opt['id'] }});
+                    @endif
+                "
+
+                        :class="{
+                            // ✅ TEST MODE (simple selection)
+                            'bg-primary-50 border-primary-300': 
+                                {{ !$isMateri ? 'true' : 'false' }} && 
+                                {{ $selected ?? 'null' }} === {{ $opt['id'] }},
+
+                            // ✅ MATERI MODE (AFTER ANSWER)
+                            'bg-green-100 border-green-500': 
+                                {{ $isMateri && $showExplanation ? 'true' : 'false' }} && 
+                                {{ $opt['is_correct'] ? 'true' : 'false' }},
+
+                             // ✅ MATERI WRONG (only selected wrong one)
+                            'bg-red-100 border-red-500': 
+                                {{ $isMateri && $showExplanation ? 'true' : 'false' }} && 
+                                {{ !$opt['is_correct'] ? 'true' : 'false' }} &&
+                                {{ $selected ?? 'null' }} === {{ $opt['id'] }},
+                                
+                            //✅ DISABLE AFTER ANSWER
+                            'opacity-80 hover:cursor-not-allowed pointer-events-none ': 
+                                {{ $isLocked ? 'true' : 'false' }}
+                        }"
+
                 >
 
                     <input type="radio"
