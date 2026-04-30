@@ -267,8 +267,22 @@
                         <button 
                         wire:key="page-{{ $modulePage->id }}"
                         wire:click="goToPage({{ $modulePage->id }})"
-                        class="{{ $modulePage['id'] == $this->page['id'] ? 'border-neutral-900 border-2 shadow-xl' : 'border-neutral-400 border' }} py-2 rounded-sm bg-neutral-200 font-display text-xl inline-block text-center cursor-pointer transition-all max-w-[40px] w-full
-                        {{ in_array($modulePage['id'], $raguRagu) ? 'bg-warning-300 text-white' : 'bg-neutral-200' }}">
+                        {{-- class="{{ $modulePage['id'] == $this->page['id'] ? 'border-neutral-900 border-2 shadow-xl' : 'border-neutral-400 border' }} py-2 rounded-sm bg-neutral-200 font-display text-xl inline-block text-center cursor-pointer transition-all max-w-[40px] w-full 
+                        {{ in_array($modulePage['id'], $raguRagu) ? 'bg-warning-300 text-white' : 'bg-neutral-200' }}"
+                        --}}
+                        @class([
+                            'py-2 rounded-sm font-display text-xl inline-block text-center cursor-pointer transition-all max-w-[40px] w-full',
+                            
+                            // border state
+                            'border-neutral-900 border-2 shadow-xl' => $modulePage['id'] == $this->page['id'],
+                            'border-neutral-400 border' => $modulePage['id'] != $this->page['id'],
+
+                            // color priority
+                            'bg-warning-300 text-white' => in_array($modulePage['id'], $raguRagu),
+                            'bg-primary-300 text-white' => !in_array($modulePage['id'], $raguRagu) && isset($answers[$modulePage['id']]),
+                            'bg-neutral-200' => !in_array($modulePage['id'], $raguRagu) && !isset($answers[$modulePage['id']]),
+                        ])
+                        >
                             {{ $loop->iteration }}
                         </button>
                     @endforeach 
