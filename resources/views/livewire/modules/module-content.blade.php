@@ -315,8 +315,15 @@
 
 @endif
     {{-- Navigation buttons --}}
-    <div class="fixed bottom-0 right-0 left-0 w-full p-4 shadow-up flex gap-2 bg-neutral-100">
-        <button wire:click="prev" class="bg-neutral-200 text-black py-2 px-2 rounded-md hover:bg-primary-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 w-full font-display text-xl tracking-wide active:translate-y-1 duration-300 shadow-md block text-center cursor-pointer">
+    <div 
+        x-data="{ answered: @entangle('showExplanation') }"
+        class="fixed bottom-0 right-0 left-0 w-full p-4 shadow-up flex gap-2 bg-neutral-100 {{ $module['type'] === 'materi' && !$showExplanation && $page['type'] === 'question'? 'invisible' : 'visible' }}"
+        :class="{
+            'invisible': {{ $module['type'] === 'materi' && $page['type'] === 'question' ? 'true' : 'false' }} && !answered,
+            'visible': answered
+        }"
+        >
+        <button wire:click="prev" class="bg-neutral-200 text-black py-2 px-2 rounded-md hover:bg-primary-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 w-full font-display text-xl tracking-wide active:translate-y-1  shadow-md block text-center cursor-pointer">
             Kembali
         </button>
         @if ($module['type'] === 'materi')
