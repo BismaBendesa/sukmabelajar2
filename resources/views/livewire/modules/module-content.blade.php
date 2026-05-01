@@ -8,7 +8,7 @@
 ?>
 <div>
     @php $page = $this->page; @endphp
-    
+
     @if($page)
 
     {{-- CONTENT --}}
@@ -250,14 +250,36 @@
                     class="mt-4 bg-blue-500 text-white px-4 py-2">
                 Submit
             </button> --}}
+            @php
+                $explanationBlock = collect($page['blocks'] ?? [])
+                    ->firstWhere('type', 'explanation');
+            @endphp
 
+            {{-- Explanation Materi --}}
             @if($showExplanation)
-                <div class="mt-4 p-4 bg-gray-100">
-                    <strong>
-                        {{ $isCorrect ? '✅ Benar' : '❌ Salah' }}
-                    </strong>
+            <div class="relative mt-6">
+                @if($isCorrect)
+                <div class="bg-success-50 mt-4 p-2 inline-block rounded-md shadow-md ml-26 relative">
+                    <h4 class="font-display text-lg tracking-wide text-success-300">Yup Benar Sekali ✅</h4>
+                </div>
+                @else
+                    <div class="bg-danger-50  mt-4 p-2 inline-block rounded-md shadow-md ml-26 relative">
+                        <h4 class="font-display text-lg tracking-wide text-danger-300">Ups, belum benar ❌</h4>
+                    </div>
+                @endif
+                    <img src="{{asset('images/sugma-penjelasan.png')}}" alt="Penjelasan" class="absolute top-[10px] z-0">
+                    <div class="mt-2 p-4 bg-primary-50 rounded-md shadow-card relative z-99 mt-6">
+                        {{-- <strong>
+                            {{ $isCorrect ? '✅ Benar' : '❌ Salah' }}
+                        </strong> --}}
+                        <h2 class="text-primary-400 font-display text-xl">Penjelasan</h2>
+                        <p>
+                            {{ $page['question']['explanation']['text'] ??  'Tidak ada penjelasan' }}
+                        </p>
+                    </div>
                 </div>
             @endif
+            
 
             {{-- Quiz navigation for non-material modules --}}
             @if($page['type'] === 'question' && $module['type'] !== 'materi')
