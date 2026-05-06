@@ -1,11 +1,25 @@
+@php
+    $backUrl = match(true) {
+        request()->routeIs('modules.result') => route('modules.show', [
+            'slug' => request()->route('slug'),
+            'moduleSlug' => request()->route('moduleSlug')
+        ]),
+        request()->routeIs('modules.show') => route('classes.show', [
+            'slug' => request()->route('slug'),
+        ]),
+        request()->routeIs('classes.show') => route('classes'),
+        request()->routeIs('classes') => route('dashboard'),
+        default => url()->previous()
+    };
+@endphp
 <header class="px-4 py-4 flex justify-between m-auto max-w-[1024px] items-center gap-4">
     <div class="flex items-center font-display gap-2 text-primary-400 text-xl">
         {{-- Back Button --}}
-        <button class="cursor-pointer" onclick="history.back()">
+        <a class="cursor-pointer" href="{{ $backUrl }}">
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 12L11 16M11 16L15 20M11 16H21M28 16C28 22.6274 22.6274 28 16 28C9.37258 28 4 22.6274 4 16C4 9.37258 9.37258 4 16 4C22.6274 4 28 9.37258 28 16Z" stroke="#61605E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-        </button>
+        </a>
         <h3>{{ $this->data['title'] ?? 'Default Title' }}</h3>
     </div>
 

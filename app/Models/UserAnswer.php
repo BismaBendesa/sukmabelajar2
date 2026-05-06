@@ -16,4 +16,16 @@ class UserAnswer extends Model
     {
         return $this->belongsTo(Question::class);
     }
+    public function progress()
+    {
+        return $this->belongsTo(UserModuleProgress::class, 'user_module_progress_id');
+    }
+
+    protected $fillable = [
+        'user_id',
+        'question_id',
+        'answer',
+        'is_correct',
+        'user_module_progress_id'
+    ];
 }

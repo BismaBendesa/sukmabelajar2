@@ -188,18 +188,13 @@
             @endphp
             @foreach($page['question']['options'] as $opt)
                 <div class="mt-2 p-3 flex items-center gap-2 border border-neutral-400 rounded-md cursor-pointer"
-                    {{-- @click="$wire.set(
-                    '{{ $isMateri ? 'selectedAnswer' : "answers.$page[id]" }}', 
-                    {{ $opt['id'] }}
-                    )" --}}
-
-
                     @click="
                     @if($isMateri)
                         $wire.set('selectedAnswer', {{ $opt['id'] }});
                         $wire.submitAnswer();
                     @else
                         $wire.set('answers.{{ $page['id'] }}', {{ $opt['id'] }});
+                        {{-- $wire.submitAnswer(); --}}
                     @endif
                 "
 
@@ -234,8 +229,7 @@
 
                         {{-- ✅ MATERI --}}
                         @if($isMateri)
-                            wire:model="selectedAnswer"
-                            wire:click="submitAnswer"
+                            wire:model="selectedAnswer" 
                         @else
                         {{-- ✅ TEST --}}
                             wire:model="answers.{{ $page['id'] }}"
@@ -246,10 +240,6 @@
                 </div>
             @endforeach
 
-            {{-- <button wire:click="submitAnswer"
-                    class="mt-4 bg-blue-500 text-white px-4 py-2">
-                Submit
-            </button> --}}
             @php
                 $explanationBlock = collect($page['blocks'] ?? [])
                     ->firstWhere('type', 'explanation');
@@ -333,18 +323,33 @@
         @else
             @php
                 // Cek apakah ID soal saat ini ada di dalam array raguRagu
-                $isRagu = in_array($page['question']['id'], $raguRagu); 
+                $isRagu = in_array($page['id'], $raguRagu); 
             @endphp
-            <button wire:click="toggleRaguRagu({{ $page['question']['id'] }})" class="bg-warning-50 text-warning-300 py-2 px-2 rounded-md hover:bg-warning-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-warning-300 focus:ring-opacity-50 w-full font-display text-xl tracking-wide active:translate-y-1 duration-300 shadow-md block text-center cursor-pointer
+            <button wire:click="toggleRaguRagu({{ $page['id'] }})" class="bg-warning-50 text-warning-300 py-2 px-2 rounded-md hover:bg-warning-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-warning-300 focus:ring-opacity-50 w-full font-display text-xl tracking-wide active:translate-y-1 duration-300 shadow-md block text-center cursor-pointer
                 {{ $isRagu ? 'bg-warning-300 text-white' : 'bg-warning-50 text-warning-300' }}">
                 Ragu-ragu
             </button>
         @endif
-        <button wire:click="next" href="{{ url('/classrooms/'.$module->classroom->slug.'/modules/'.$module->slug.'/content') }}" class="bg-primary-300 text-white py-2 px-2 rounded-md hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 w-full font-display text-xl tracking-wide active:translate-y-1 duration-300 shadow-md block text-center cursor-pointer">
-            Selanjutnya
+        <button 
+            @if($this->isLastPage())
+                wire:click="finishModule"
+            @else
+                wire:click="next"
+            @endif
+            href="{{ url('/classrooms/'.$module->classroom->slug.'/modules/'.$module->slug.'/content') }}" 
+            class="bg-primary-300 text-white py-2 px-2 rounded-md hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 w-full font-display text-xl tracking-wide active:translate-y-1 duration-300 shadow-md block text-center cursor-pointer">
+            {{ $this->isLastPage() ? 'Akhiri Test' : 'Selanjutnya' }}
         </button>
-    </div>
+
+</div>
     <script>
+        window.addEventListener('confirm-submit', event => {
+        const unanswered = event.detail.unanswered;
+
+        if (confirm(`Masih ada ${unanswered} soal belum dijawab. Yakin mau submit?`)) {
+            Livewire.dispatch('confirmSubmit');
+        }
+    });
         function audioPlayer(src) {
             return {
                 audio: null,

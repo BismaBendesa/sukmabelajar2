@@ -10,6 +10,7 @@ use App\Livewire\Courses\ClassShow;
 use App\Livewire\Dashboard;
 use App\Livewire\DashboardDosen;
 use App\Livewire\KelasDosen;
+use App\Livewire\Modules\ModuleResult;
 use App\Livewire\Modules\ModulesShow;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,7 @@ Route::middleware(['auth', 'role:mhs', 'verified'])->group(function () {
     ->name('dashboard');
 });
 
+// Route Template
 Route::middleware(['auth', 'role:dosen'])->group(function () {
   Route::get('/kelas/dosen', ClassLecturer::class)
     ->name('classLecturer');
@@ -57,6 +59,9 @@ Route::view('/onboarding', 'onboarding.index')->name('onboarding');
 Route::get('/daftar', \App\Livewire\Auth\Register::class);
 Route::get('/login', Login::class)->name('login');
 
+
+// NEED REFACTORING: Route below need refactoring to add middleware 
 Route::get('/kelas/{slug}', ClassShow::class)->name('classes.show');
 Route::get('/kelas/{slug}/modul/{moduleSlug}', ModulesShow::class)->name('modules.show');
-Route::get('/classrooms/{slug}/modules/{moduleSlug}/content', \App\Livewire\Modules\ModuleContent::class)->name('modules.content');
+Route::get('/kelas/{slug}/modul/{moduleSlug}/content', \App\Livewire\Modules\ModuleContent::class)->name('modules.content');
+Route::get('/kelas/{slug}/modul/{moduleSlug}/result', ModuleResult::class)->name('modules.result');

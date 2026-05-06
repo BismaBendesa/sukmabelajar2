@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->foreignId('user_id')->constrained();
             $table->foreignId('question_id')->constrained();
+            $table->foreignId('user_module_progress_id')->constrained()->cascadeOnDelete();
 
             $table->json('answer'); // flexible (multi select / essay)
 

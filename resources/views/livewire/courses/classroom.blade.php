@@ -1,4 +1,4 @@
-<div class="max-w-[560px] md:m-auto px-4">
+<div class="max-w-[560px] md:m-auto px-4 pb-30">
     <div class="flex rounded-lg tracking-wider items-start justify-start gap-6 px-4 bg-primary-200 text-neutral-100 relative py-5 mb-10">
         <h1 class="capitalize font-display text-4xl w-[250px]">daftar list kelas</h1>
         <img src="{{asset('images/3d-daftar-kelas.png')}}" alt="Placeholder Image" class="absolute right-[-20px] top-[-10px]">
