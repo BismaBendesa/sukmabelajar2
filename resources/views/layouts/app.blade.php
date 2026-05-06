@@ -23,15 +23,6 @@
             <x-navbar></x-navbar>
         @endif
         
-        @if($showProgressBar ?? false)
-            {{-- Progress Bar --}}
-            <div class="max-w-[1024px] h-2 bg-gray-200 rounded-full mx-4 md:mx-auto mt-4">
-                <div 
-                    class="h-2 bg-blue-500 rounded-full transition-all"
-                    style="width: {{ $progress ?? 3 }}%">
-                </div>
-            </div>
-        @endif
         <livewire:header :data="$header ?? []" />
         {{ $slot }}
 

@@ -20,6 +20,7 @@ class ModuleContent extends Component
     public $answers = []; // Menyimpan jawaban untuk semua pertanyaan
     public $currentPageIndex = 0;
     public $endTime;
+    public $visitedPages = [];
 
     public $selectedAnswer = null;
     public $showExplanation = false;
@@ -71,6 +72,9 @@ class ModuleContent extends Component
                 'module_id' => $this->module->id,
             ]);
         }
+        $this->visitedPages[] = $this->currentPageIndex;
+        // ✅ Calculate initial progress bar
+        $this->calculateProgress();
 
         $this->progressId = $progress->id;
     }
@@ -83,6 +87,10 @@ class ModuleContent extends Component
             if ($p['id'] == $targetId) {
                 $this->resetState(); // Reset answers/explanations
                 $this->currentPageIndex = $index;
+
+                // update progress bar on navigation
+                $this->calculateProgress();
+
                 return;
             }
         }
@@ -100,6 +108,13 @@ class ModuleContent extends Component
             $this->resetState();
             $this->currentPageIndex++;
         }
+
+        $this->visitedPages[] = $this->currentPageIndex;
+        $this->visitedPages = array_unique($this->visitedPages);
+
+        $this->calculateProgress(); // update progress bar on next
+
+
         $this->dispatch(
             'update-header-pages',
             currentPage: $this->currentPageIndex + 1,
@@ -113,6 +128,10 @@ class ModuleContent extends Component
             $this->resetState();
             $this->currentPageIndex--;
         }
+
+        $this->visitedPages[] = $this->currentPageIndex;
+        $this->visitedPages = array_unique($this->visitedPages);
+
         $this->dispatch(
             'update-header-pages',
             currentPage: $this->currentPageIndex + 1,
@@ -136,6 +155,9 @@ class ModuleContent extends Component
 
         // ✅ IMPORTANT FIX: sync to answers array
         $this->answers[$page['id']] = $this->selectedAnswer;
+
+        // update progress bar answer
+        $this->calculateProgress();
 
         // ✅ SAVE ANSWER LINKED TO PROGRESS
         UserAnswer::updateOrCreate(
@@ -174,6 +196,36 @@ class ModuleContent extends Component
     //     // Kirim event ke komponen lain
     //     $this->dispatch('update-progress', progress: $percentage);
     // }
+
+    // function for progress bar header calculation
+    public function calculateProgress()
+    {
+        if ($this->module->type === 'materi') {
+            $totalPages = count($this->pages);
+
+            $completedPages = count($this->visitedPages);
+
+            $percentage = $totalPages > 0
+                ? round(($completedPages / $totalPages) * 100)
+                : 0;
+        } else {
+            // TEST mode
+            $questionPages = collect($this->pages)->where('type', 'question');
+
+            $total = $questionPages->count();
+
+            $answered = $questionPages->filter(
+                fn($p) =>
+                isset($this->answers[$p['id']])
+            )->count();
+
+            $percentage = $total > 0
+                ? round(($answered / $total) * 100)
+                : 0;
+        }
+
+        $this->dispatch('update-progress', $percentage);
+    }
 
     private function resetState()
     {
@@ -417,8 +469,8 @@ class ModuleContent extends Component
         return view('livewire.modules.module-content')->layout('layouts.app', [
             'showNavbar' => false,
             'module' => $this->module,
-            'showProgressBar' => true,
             'header' => [
+                'showProgressBar' => true,
                 'title' => $this->module->title,
                 'level' => 19,
                 'rank' => 1,
