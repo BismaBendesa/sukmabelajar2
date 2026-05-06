@@ -80,13 +80,22 @@
 
     @elseif ($this->mode === 'TEST')
         {{-- Mode Test (Kuis, UTS, UAS) --}}
-        <div 
-            x-data="timer({{ $data['endTime'] ?? 'null' }})"
-            x-init="start()"
-            class="font-merriweather tracking-wider text-lg"
-            >
-                <span x-text="formatted"></span>
-        </div>
+        @if(isset($data['duration']))
+            <div class="font-merriweather tracking-wider text-lg">
+                {{ $data['duration'] }} Menit
+            </div>
+            @else
+            {{-- {{$this->mode}}
+            {{ dump($data['endTime'] ?? 'NO END TIME') }}
+            {{$data['endTime'] ? date('Y-m-d H:i:s', $data['endTime']) : 'NO END TIME'}} --}}
+            <div 
+                x-data="timer(@js( ($data['endTime'] ?? null)))"
+                x-init="start()"
+                class="font-merriweather tracking-wider text-lg"
+                >
+                    <span x-text="formatted"></span>
+            </div>
+            @endif
     @elseif ($this->mode === 'LOGOUT')
     {{-- Mode button logout --}}
     <button wire:click="logout" class="font-display bg-danger-50 text-danger-300 p-2 px-4 rounded-md text-sm">Logout</button>
@@ -117,14 +126,39 @@
                 remaining: 0,
                 formatted: '00:00',
 
+
                 start() {
-                    if (!endTime) return;
+                    console.log("endTime:", endTime);
+
+                    if (!endTime) {
+                        console.warn("Timer not started - no endTime");
+                        return;
+                    }
 
                     this.update();
+
+                    if (this.interval) clearInterval(this.interval);
 
                     setInterval(() => {
                         this.update();
                     }, 1000);
+                },
+
+                tick() {
+                    const now = Math.floor(Date.now() / 1000);
+                    this.timeLeft = endTime - now;
+
+                    if (this.timeLeft <= 0) {
+                        this.formatted = "00:00";
+                        return;
+                    }
+
+                    const minutes = Math.floor(this.timeLeft / 60);
+                    const seconds = this.timeLeft % 60;
+
+                    this.formatted =
+                        String(minutes).padStart(2, '0') + ':' +
+                        String(seconds).padStart(2, '0');
                 },
 
                 update() {

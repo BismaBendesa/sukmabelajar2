@@ -35,6 +35,8 @@ class ModulesShow extends Component
                 'xp'   => 50,
                 'mode' => $this->module->type === 'materi' ? 'MATERI' : 'TEST',
                 'totalPages' => count($this->module->pages),
+                'endTime' => null,
+                'duration' => $this->module->test?->time_limit_minutes
             ]
         ]);
     }

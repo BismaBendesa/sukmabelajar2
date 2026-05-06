@@ -2,7 +2,6 @@
 
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\VerifyEmail;
-use App\Livewire\Classes;
 use App\Livewire\ClassLecturer;
 use App\Livewire\Classroom;
 use App\Livewire\Course;
@@ -14,6 +13,7 @@ use App\Livewire\Modules\ModuleResult;
 use App\Livewire\Modules\ModulesShow;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\Classroom as ModelsClassroom;
 
 Route::get('/', function () {
 
@@ -63,5 +63,27 @@ Route::get('/login', Login::class)->name('login');
 // NEED REFACTORING: Route below need refactoring to add middleware 
 Route::get('/kelas/{slug}', ClassShow::class)->name('classes.show');
 Route::get('/kelas/{slug}/modul/{moduleSlug}', ModulesShow::class)->name('modules.show');
+
+// Route for starting a module, will set session for timer if it's a test, then redirect to content
+Route::get('/modules/{slug}/{moduleSlug}/start', function ($slug, $moduleSlug) {
+  $module = ModelsClassroom::where('slug', $slug)
+    ->first()
+    ->modules()
+    ->where('slug', $moduleSlug)
+    ->first();
+
+  if ($module->type !== 'materi') {
+    $timeLimit = $module->test?->time_limit_minutes;
+
+    if ($timeLimit) {
+      session([
+        'test_end_time_' . $module->id => now()->addMinutes($timeLimit)->timestamp
+      ]);
+    }
+  }
+
+  return redirect()->route('modules.content', compact('slug', 'moduleSlug'));
+})->name('modules.start');
+
 Route::get('/kelas/{slug}/modul/{moduleSlug}/content', \App\Livewire\Modules\ModuleContent::class)->name('modules.content');
 Route::get('/kelas/{slug}/modul/{moduleSlug}/result', ModuleResult::class)->name('modules.result');

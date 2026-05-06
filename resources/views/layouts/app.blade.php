@@ -32,7 +32,7 @@
                 </div>
             </div>
         @endif
-        <livewire:header :data="$header ?? []"/>
+        <livewire:header :data="$header ?? []" />
         {{ $slot }}
 
         {{-- tab-bar --}}

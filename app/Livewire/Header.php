@@ -15,6 +15,7 @@ class Header extends Component
 
     protected $listeners = ['setHeader'];
     public $currentProgress = 0; // Default 0%
+    public $endTime;
 
     public function mount($data = [])
     {
@@ -22,6 +23,7 @@ class Header extends Component
         $this->mode = $data['mode'] ?? 'default';
         $this->data['currentPage'] = $data['currentPage'] ?? 1;
         $this->data['totalPages'] = $data['totalPages'] ?? 1;
+        $this->endTime = $data['endTime'] ?? null;
     }
 
     // Daftarkan listener dari progres yang dikirim oleh ModuleContent

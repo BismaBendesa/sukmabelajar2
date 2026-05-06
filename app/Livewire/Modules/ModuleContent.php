@@ -19,6 +19,7 @@ class ModuleContent extends Component
     public $raguRagu = [];
     public $answers = []; // Menyimpan jawaban untuk semua pertanyaan
     public $currentPageIndex = 0;
+    public $endTime;
 
     public $selectedAnswer = null;
     public $showExplanation = false;
@@ -40,6 +41,22 @@ class ModuleContent extends Component
 
         $this->pages = $this->module->pages->values()->toArray();
 
+        // ✅ FIX: Always ensure endTime exists
+        if ($this->module->type !== 'materi') {
+            $timeLimit = $this->module->test?->time_limit_minutes;
+
+            if ($timeLimit) {
+                $key = 'test_end_time_' . $this->module->id;
+
+                if (!session()->has($key)) {
+                    session([$key => now()->addMinutes($timeLimit)->timestamp]);
+                }
+
+                // ✅ FORCE assign to header data
+                $this->endTime = session($key);
+            }
+        }
+
         $user = auth()->user();
 
         $progress = UserModuleProgress::where('user_id', $user->id)
@@ -56,59 +73,6 @@ class ModuleContent extends Component
         }
 
         $this->progressId = $progress->id;
-
-        // // 🔥 Try get from session first
-        // $progressId = session('progress_' . $this->module->id);
-
-        // if ($progressId) {
-        //     $this->progressId = $progressId;
-        // } else {
-        //     $progress = UserModuleProgress::create([
-        //         'user_id' => $user->id,
-        //         'module_id' => $this->module->id,
-        //         'score' => null,
-        //         'is_completed' => false,
-        //     ]);
-
-        //     $this->progressId = $progress->id;
-
-        //     session([
-        //         'progress_' . $this->module->id => $this->progressId
-        //     ]);
-        // }
-
-        // if ($this->module->type !== 'materi') {
-        //     $timeLimit = $this->module->test?->time_limit_minutes;
-        //     $hasAttempt = session()->has('module_attempt_' . $this->module->id);
-        //     $hasTimer   = session()->has('test_end_time_' . $this->module->id);
-
-
-        //     if ($timeLimit) {
-        //         if (!session()->has('test_end_time_' . $this->module->id)) {
-        //             $endTime = Carbon::now()->addMinutes($timeLimit);
-
-        //             session([
-        //                 'test_end_time_' . $this->module->id => $endTime->timestamp
-        //             ]);
-        //         }
-        //     }
-        //     if (!$hasAttempt) {
-        //         return redirect()->route('modules.show', [
-        //             'slug' => $this->module->classroom->slug,
-        //             'moduleSlug' => $this->module->slug
-        //         ])->with('error', 'Kamu sudah menghabiskan kesempatan untuk mengerjakan tes ini.');
-        //     }
-        // }
-
-        // // Tracking attempt in session (optional, can be removed if not needed)
-        // $this->attempt = session('module_attempt_' . $this->module->id)
-        //     ?? UserModuleProgress::where('user_id', auth()->id())
-        //     ->where('module_id', $this->module->id)
-        //     ->count() + 1;
-
-        // session([
-        //     'module_attempt_' . $this->module->id => $this->attempt
-        // ]);
     }
 
     // Only for non material navigation
@@ -462,7 +426,7 @@ class ModuleContent extends Component
                 'mode' => $this->module->type === 'materi' ? 'MATERI' : 'TEST', // will have logic here if Materi and If test
                 'currentPage' => $this->currentPageIndex + 1,
                 'totalPages' => count($this->pages),
-                'endTime' => session('test_end_time_' . $this->module->id),
+                'endTime' => $this->endTime ?? session('test_end_time_' . $this->module->id),
             ]
         ]);
     }
