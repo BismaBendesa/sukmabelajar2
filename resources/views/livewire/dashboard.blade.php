@@ -4,8 +4,11 @@
         <a href="">
             <img src="{{ asset('./images/user-avatar.png') }} " alt="User Avatar" class="mx-auto rounded-full w-32 h-32 object-cover border border-primary-300 mb-4 shadow-lg">
         </a>
-        <h3 class="text-primary-300 font-display text-2xl text-center tracking-wide">I Komang Bisma Bendesa Jaya</h3>
-        <p class="text-primary-300 text-center">Mahasiswa 22 | NIM. 2208561024</p>
+        <h3 class="text-primary-300 font-display text-2xl text-center tracking-wide">{{ Auth::user()->username }}</h3>
+        <p class="text-primary-300 text-center">
+            Mahasiswa {{ substr(Auth::user()->nim, 0, 2) }} | 
+            NIM. {{ Auth::user()->nim }}
+        </p>
     </div>
     {{-- User Level Section --}}
     <div class="mt-4 border-b border-neutral-300 pb-4">
