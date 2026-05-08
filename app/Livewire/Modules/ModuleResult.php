@@ -13,6 +13,7 @@ class ModuleResult extends Component
     public $score;
     public $correct;
     public $total;
+    public $minimumPassScore = 70;
 
     public function mount($slug, $moduleSlug)
     {
@@ -36,6 +37,8 @@ class ModuleResult extends Component
                 session()->flash('error', 'Kesempatan sudah habis');
             }
         }
+
+        $this->minimumPassScore = $this->module->test?->minimum_pass_score ?? 70;
     }
 
     // public function loadResult()

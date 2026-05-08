@@ -60,6 +60,15 @@ class ModuleContent extends Component
 
         $user = auth()->user();
 
+        if (!$user) {
+            abort(403);
+        }
+
+        // Ensure module exists first
+        if (!$this->module) {
+            abort(404, 'Module not found');
+        }
+
         $progress = UserModuleProgress::where('user_id', $user->id)
             ->where('module_id', $this->module->id)
             ->where('is_completed', false)
