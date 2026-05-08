@@ -1,10 +1,3 @@
-<?php
-$gagal = false;
-$lulus = false;
-
-$historyRecord = false;
-
-?>
 <div>
     @if (session('error'))
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
@@ -40,8 +33,8 @@ $historyRecord = false;
                 </td>
             </tr>
             <tr class="border-b border-neutral-400">
-                <td class="py-4">Jumlah Halaman </td>
-                <td>{{ $module->pages->count() }} halaman</td>
+                <td class="py-4">Jumlah {{$module->type !== 'materi' ? 'Soal' : 'Halaman'}}</td>
+                <td>{{ $module->pages->count() }} {{ $module->type !== 'materi' ? 'soal' : 'halaman' }}</td>
             </tr>
             <tr class="border-b border-neutral-400">
                 <td class="py-4">Tipe </td>
@@ -60,7 +53,7 @@ $historyRecord = false;
             @endif
         </table>
         @if ($gagal)
-            <img src="{{asset('images/stempel-belum-lulus.png')}}" alt="lulus" class="absolute top-[-100px] right-[-20px]">
+            <img src="{{asset('images/stempel-tidak-lulus.png')}}" alt="lulus" class="absolute top-[-100px] right-[-20px]">
         @elseif ($lulus)
             <img src="{{asset('images/stempel-lulus.png')}}" alt="lulus" class="absolute top-[-100px] right-[-20px]">
         @else
@@ -91,27 +84,62 @@ $historyRecord = false;
     @if($historyRecord)
         <div class="mt-6">
             <h2 class="font-display text-2xl text-primary-400">Riwayat</h2>
+            <div class="flex items-center gap-4 my-2">
+                <div class="flex items-center gap-2">
+                    <div class="bg-primary-400 w-2 h-2 rounded full"></div>
+                    <span class="text-sm">Lulus</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="bg-danger-300 w-2 h-2 rounded full"></div>
+                    <span class="text-sm">Tidak Lulus</span>
+                </div>
+            </div>
             <div class="text-neutral-900 bg-neutral-100 rounded-md mt-4">
                 {{-- Nilai under kkm = text-red else text-green --}}
                 <table class="w-full bg-neutral-100">
-                    <tr class="font-display font-black text-base text-left bg-neutral-200 text-primary-400">
-                        <th class="p-2 mb-2 tracking-wider ">No</th>
-                        <th class="p-2 mb-2 tracking-wider">Tanggal</th>
-                        <th class="p-2 mb-2 tracking-wider">Jam</th>
-                        <th class="p-2 mb-2 tracking-wider">Nilai</th>
+                    <tr class="font-display text-base text-left bg-neutral-200 text-primary-400">
+                        <th class="p-2 mb-2 tracking-wider font-normal">No</th>
+                        <th class="p-2 mb-2 tracking-wider font-normal">Tanggal</th>
+                        <th class="p-2 mb-2 tracking-wider font-normal">Jam</th>
+                        <th class="p-2 mb-2 tracking-wider font-normal">Nilai</th>
                     </tr>
-                    <tr class="font-merriweather text-xs font-light border-b border-neutral-400">
-                        <td class="mr-4 p-3">1</td>
-                        <td class="p-3">10 April 2026</td>
-                        <td class="p-3">10:00 - 10.30 (30 menit)</td>
-                        <td class="p-3">85 (A)</td>
-                    </tr>
-                    <tr class="font-merriweather text-xs font-light border-b border-neutral-400">
-                        <td class="mr-4 p-3">1</td>
-                        <td class="p-3">10 April 2026</td>
-                        <td class="p-3">10:00 - 10.30 (30 menit)</td>
-                        <td class="p-3">85 (A)</td>
-                    </tr>
+                    <tbody>
+                        @foreach ($history as $item)
+                            @php
+                                $isPass = $module->type !== 'materi'
+                                    ? $item->score >= ($module->test?->minimum_pass_score ?? 70)
+                                    : $item->score >= 70;
+                            @endphp
+
+                            <tr class="font-merriweather text-xs font-light border-b border-neutral-400">
+                                <td class="mr-4 p-3">
+                                    {{ $loop->iteration }}
+                                </td>
+
+                                <td class="p-3">
+                                    {{ $item->created_at->translatedFormat('d F Y') }}
+                                </td>
+
+                                <td class="p-3">
+                                    {{ $item->created_at->format('H:i') }}
+                                </td>
+
+                                <td class="p-3 font-bold {{ $isPass ? 'text-primary-400' : 'text-danger-300' }}">
+                                    {{ $item->score }}
+
+                                    @php
+                                        $grade = match(true) {
+                                            $item->score >= 89 => 'A',
+                                            $item->score >= 79 => 'B',
+                                            default => 'C'
+                                        };
+                                    @endphp
+
+                                    ({{ $grade }})
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>
