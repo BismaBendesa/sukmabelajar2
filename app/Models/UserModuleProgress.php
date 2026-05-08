@@ -13,4 +13,8 @@ class UserModuleProgress extends Model
         'score',
         'is_completed',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

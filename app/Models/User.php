@@ -52,6 +52,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserAnswer::class);
     }
+    public function moduleProgresses()
+    {
+        return $this->hasMany(UserModuleProgress::class);
+    }
 
 
     /**

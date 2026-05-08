@@ -80,10 +80,58 @@
             </ul>
         </div>
     @endif
+
+    {{-- Leaderboard --}}
+    <div class="mt-8">
+        <h2 class="font-display text-2xl text-primary-400 my-4">Leaderboard Perankingan</h2>
+        <table class="w-full bg-neutral-100">
+            <tr class="font-display text-base text-left">
+                <th class="py-2 mb-2 tracking-wider font-normal">Rank</th>
+                <th class="py-2 mb-2 tracking-wider font-normal">Nama</th>
+                <th class="py-2 mb-2 tracking-wider font-normal">Skor</th>
+                <th class="py-2  mb-2 tracking-wider font-normal">Tanggal</th>
+                <th class="py-2  mb-2 tracking-wider font-normal">Jam</th>
+            </tr>
+            <tbody class="font-merriweather text-sm">
+            @foreach($leaderboard as $player)
+            @php
+                $isCurrentUser = $player->user_id === auth()->id();
+            @endphp
+            <tr 
+                class="
+                {{ $isCurrentUser 
+                    ? 'bg-primary-50 border-l-4 border-primary-300 text-primary-300' 
+                    : 'border-b border-neutral-300'
+                }}
+            ">
+                <td class="font-display text-2xl py-2 pl-2">
+                    @if($player->rank === 1)
+                        <span class="text-additional-gold">🥇 #1</span>
+
+                    @elseif($player->rank === 2)
+                        <span class="text-additional-silver">🥈 #2</span>
+
+                    @elseif($player->rank === 3)
+                        <span class="text-additional-bronze">🥉 #3</span>
+
+                    @else
+                        <span class="text-neutral-400">#{{ $player->rank }}</span>
+                    @endif
+                </td>
+                <td class="py-2 font-merriweather">{{ $player->user->username }}</td>
+                <td class="py-2 font-merriweather">{{ $player->score }}</td>
+                <td class="py-2 font-merriweather">{{ $player->created_at->translatedFormat('d M Y') }}</td>
+                <td class="py-2 font-merriweather">{{ $player->created_at->format('H:i') }}</td>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+
     {{-- History Record --}}
     @if($historyRecord)
         <div class="mt-6">
-            <h2 class="font-display text-2xl text-primary-400">Riwayat</h2>
+            <h2 class="font-display text-2xl text-primary-400">Riwayat Pengerjaan Modul</h2>
             <div class="flex items-center gap-4 my-2">
                 <div class="flex items-center gap-2">
                     <div class="bg-primary-400 w-2 h-2 rounded full"></div>
@@ -103,7 +151,7 @@
                         <th class="p-2 mb-2 tracking-wider font-normal">Jam</th>
                         <th class="p-2 mb-2 tracking-wider font-normal">Nilai</th>
                     </tr>
-                    <tbody>
+                    <tbody class="font-merriweather text-sm">
                         @foreach ($history as $item)
                             @php
                                 $isPass = $module->type !== 'materi'
@@ -111,7 +159,7 @@
                                     : $item->score >= 70;
                             @endphp
 
-                            <tr class="font-merriweather text-xs font-light border-b border-neutral-400">
+                            <tr class="font-merriweather text-sm font-light border-b border-neutral-300">
                                 <td class="mr-4 p-3">
                                     {{ $loop->iteration }}
                                 </td>

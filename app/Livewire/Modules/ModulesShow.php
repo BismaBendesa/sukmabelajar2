@@ -5,12 +5,14 @@ namespace App\Livewire\Modules;
 use Livewire\Attributes\Layout;
 use App\Models\UserModuleProgress;
 use Livewire\Component;
+use App\Models\User;
 use App\Models\Classroom as ClassroomModel;
 
 class ModulesShow extends Component
 {
     public $module;
     public $history = [];
+    public $leaderboard = [];
     public $historyRecord = false;
 
     public $lulus = false;
@@ -69,6 +71,55 @@ class ModulesShow extends Component
             // ✅ Failed only if there is history but never passed
             $this->gagal = !$hasPassed;
         }
+
+        $progresses = UserModuleProgress::with('user')
+            ->where('module_id', $this->module->id)
+            ->where('is_completed', true)
+            ->get();
+        $bestAttempts = $progresses
+            ->groupBy('user_id')
+            ->map(function ($attempts) {
+
+                // Sort:
+                // 1. Highest score
+                // 2. Earliest submit
+
+                return $attempts
+                    ->sort(function ($a, $b) {
+
+                        // Higher score first
+                        if ($a->score !== $b->score) {
+                            return $b->score <=> $a->score;
+                        }
+
+                        // Earlier completion wins
+                        return strtotime($a->created_at)
+                            <=> strtotime($b->created_at);
+                    })
+                    ->first();
+            })
+            ->values();
+
+        $this->leaderboard = $bestAttempts
+            ->sort(function ($a, $b) {
+
+                if ($a->score !== $b->score) {
+                    return $b->score <=> $a->score;
+                }
+
+                return strtotime($a->created_at)
+                    <=> strtotime($b->created_at);
+            })
+            ->values();
+
+        $this->leaderboard = $this->leaderboard
+            ->values()
+            ->map(function ($item, $index) {
+
+                $item->rank = $index + 1;
+
+                return $item;
+            });
     }
     public function render()
     {
