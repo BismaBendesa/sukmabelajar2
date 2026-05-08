@@ -1,17 +1,39 @@
-<div class="max-w-xl mx-auto mt-10 text-center">
+@php
+    $isPass = $score >= $minimumPassScore;
+    // NEED FIX : Need to add minimum_pass_score to module type materi!
+@endphp
 
-    <h1 class="font-display text-3xl">{{$module->type}}: {{ $module->title }}</h1>
-    <h1 class="text-xl font-bold">Hasil Kamu</h1>
+<div class="max-w-xl mx-auto mt-10 text-center py-6"  style="background-image: url('{{ asset('images/background-icons.png') }}');">
+    <div>
+        @if ($isPass)
+            <img src="{{asset('images/sugma-test-pass.png')}}" alt="Lulus test" class="mx-auto w-[200px] relative">
+            <div class="mt-4 font-display text-neutral-100 bg-primary-300 inline-block p-2 rounded-full w-[100px] h-[100px] flex items-center absolute left-[60px] top-[80px]">
+                <span class="text-sm block mb-[-6px]">1st</span>
+                <span class="text-6xl block leading-[70px]">{{ $score }}</span> 
+            </div>
+            <img src="{{asset('images/stempel-lulus.png')}}" alt="Stempel Tidak Lulus" class="mx-auto w-[120px] absolute right-[60px] top-[240px]">
+            @else
+            <img src="{{asset('images/sugma-test-fail.png')}}" alt="Gagal test" class="mx-auto w-[200px] relative">
+            <div class="mt-4 font-display text-neutral-100 bg-primary-300 inline-block p-2 rounded-full w-[100px] h-[100px] flex items-center absolute left-[60px] top-[80px]">
+                <span class="text-sm block mb-[-6px]">1st</span>
+                <span class="text-6xl block leading-[70px]">{{ $score }}</span> 
+            </div>
+            <img src="{{asset('images/stempel-tidak-lulus.png')}}" alt="Stempel Tidak Lulus" class="mx-auto w-[120px] absolute right-[60px] top-[240px]">
+        @endif
+    </div>
 
-    <p class="text-6xl mt-4 font-bold text-primary-400">
-        {{ $score }}
-    </p>
+    
+    <div class="mt-5">
+        <h1 class="font-display text-3xl">{{$module->type}}: {{ $module->title }}</h1>
+        <h1 class="text-xl capitalize font-display">{{ $module->type }} selesai !</h1>
+    </div>
+
+
 
     <p class="mt-2 text-gray-600">
         {{ $correct }} / {{ $total }} benar
     </p>
-
-    @if($score >= 70)
+    @if($isPass)
         <p class="text-green-500 mt-4 text-lg font-semibold">
             Lulus 🎉
         </p>
