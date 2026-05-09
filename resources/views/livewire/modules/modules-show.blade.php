@@ -80,7 +80,6 @@
             </ul>
         </div>
     @endif
-
     {{-- Leaderboard --}}
     @if(count($leaderboard) != 0)
     <div class="mt-8">

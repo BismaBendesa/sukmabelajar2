@@ -33,8 +33,11 @@
     </div>
     {{-- Module Cards (need looping here)--}}
     <div class="mt-[-40px] flex flex-col gap-2 pb-30">
-        @foreach ($class->modules as $module)
-            <x-module-card :module="$module" :mode="'locked'" />
-        @endforeach
-    </div>
+    @foreach ($modulesWithState as $module)
+        <x-module-card 
+            :module="$module"
+            :mode="$module->mode"
+        />
+    @endforeach
+</div>
 </div>
