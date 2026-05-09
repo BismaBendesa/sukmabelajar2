@@ -82,6 +82,7 @@
     @endif
 
     {{-- Leaderboard --}}
+    @if(count($leaderboard) != 0)
     <div class="mt-8">
         <h2 class="font-display text-2xl text-primary-400 my-4">Leaderboard Perankingan</h2>
         <table class="w-full bg-neutral-100">
@@ -127,6 +128,7 @@
             </tbody>
         </table>
     </div>
+    @endif
 
     {{-- History Record --}}
     @if($historyRecord)
