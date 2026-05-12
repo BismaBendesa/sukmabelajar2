@@ -32,8 +32,8 @@
         @endif
     </a>
     {{-- Leaderboard Link --}}
-    <a href="" class="flex flex-col justify-center items-center w-[72px]">
-        @if(request()->is('klasemen'))
+    <a href="/leaderboard" class="flex flex-col justify-center items-center w-[72px]">
+        @if(request()->is('leaderboard*'))
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M24.5 3C23.1193 3 22 4.11929 22 5.5V26.5C22 27.8807 23.1193 29 24.5 29H25.5C26.8807 29 28 27.8807 28 26.5V5.5C28 4.11929 26.8807 3 25.5 3H24.5Z" fill="#002758"/>
                 <path d="M13 11.5C13 10.1193 14.1193 9 15.5 9H16.5C17.8807 9 19 10.1193 19 11.5V26.5C19 27.8807 17.8807 29 16.5 29H15.5C14.1193 29 13 27.8807 13 26.5V11.5Z" fill="#002758"/>

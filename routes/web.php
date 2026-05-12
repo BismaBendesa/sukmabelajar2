@@ -9,11 +9,13 @@ use App\Livewire\Courses\ClassShow;
 use App\Livewire\Dashboard;
 use App\Livewire\DashboardDosen;
 use App\Livewire\KelasDosen;
+use App\Livewire\Leaderboard;
+use App\Livewire\LeaderboardIndex;
 use App\Livewire\Modules\ModuleResult;
 use App\Livewire\Modules\ModulesShow;
+use App\Models\Classroom as ModelsClassroom;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Models\Classroom as ModelsClassroom;
 
 Route::get('/', function () {
 
@@ -87,3 +89,9 @@ Route::get('/modules/{slug}/{moduleSlug}/start', function ($slug, $moduleSlug) {
 
 Route::get('/kelas/{slug}/modul/{moduleSlug}/content', \App\Livewire\Modules\ModuleContent::class)->name('modules.content');
 Route::get('/kelas/{slug}/modul/{moduleSlug}/result', ModuleResult::class)->name('modules.result');
+
+Route::get('/leaderboard', LeaderboardIndex::class)
+  ->name('leaderboard.index');
+
+Route::get('/leaderboard/{slug}', Leaderboard::class)
+  ->name('leaderboard.class');

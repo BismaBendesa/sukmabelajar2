@@ -16,7 +16,7 @@
     <livewire:modal />
     {{-- Class List --}}
     @forelse ($classData as $class)
-        <livewire:class-card  :class="$class" :key="$class->id" />
+        <livewire:class-card  :class="$class" :key="$class['id']" />
     @empty
         {{-- TAMPILAN JIKA KELAS KOSONG (EMPTY STATE) --}}
         <div class="flex items-center gap-4 relative justify-end mt-20 pl-36 align-left">

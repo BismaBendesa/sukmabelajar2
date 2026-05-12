@@ -41,4 +41,8 @@ class Module extends Model
     {
         return $this->hasMany(Page::class)->orderBy('position');
     }
+    public function progresses()
+    {
+        return $this->hasMany(UserModuleProgress::class);
+    }
 }

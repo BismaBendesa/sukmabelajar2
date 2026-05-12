@@ -18,49 +18,75 @@ class Classroom extends Component
     // Header Data
     public function mount()
     {
-        //     $this->dispatch(
-        //         'setHeader',
-        //         mode: 'DEFAULT',
-        //         data: [
-        //             'title' => 'Kelas',
-        //             'level' => 19,
-        //             'rank' => 1,
-        //             'xp'    => 50
-        //         ]
-        //     );
-
-        // $this->classData = Auth::user()->classrooms;
-        // initial load of user's classes
-        $this->classData = Auth::user()->classrooms()->latest()->get();
+        $this->loadClasses();
     }
+
+    // public function loadClasses()
+    // {
+    //     $this->classData = Auth::user()->classrooms()->latest()->get();
+    // }
 
     public function loadClasses()
     {
-        $this->classData = Auth::user()->classrooms()->latest()->get();
+        $user = Auth::user();
+        $this->classData = $user->classrooms()
+            ->with([
+                'modules',
+                'modules.test',
+                'modules.progresses' => function ($q) use ($user) {
+                    $q->where('user_id', $user->id)
+                        ->where('is_completed', true);
+                }
+            ])
+            ->latest()
+            ->get()
+            ->map(function ($class) {
+
+                $totalModules = $class->modules->count();
+
+                $completedModules = 0;
+
+                foreach ($class->modules as $module) {
+
+                    $bestProgress = $module->progresses
+                        ->sortByDesc('score')
+                        ->first();
+
+                    if (!$bestProgress) {
+                        continue;
+                    }
+
+                    if ($module->type === 'materi') {
+
+                        if ($bestProgress->is_completed) {
+                            $completedModules++;
+                        }
+                    } else {
+
+                        $minimumScore = $module->test?->minimum_pass_score ?? 70;
+
+                        if ($bestProgress->score >= $minimumScore) {
+                            $completedModules++;
+                        }
+                    }
+                }
+
+                $progress = $totalModules > 0
+                    ? round(($completedModules / $totalModules) * 100)
+                    : 0;
+
+                return [
+                    'id' => $class->id,
+                    'slug' => $class->slug,
+                    'name' => $class->name,
+                    'description' => $class->description,
+                    'class_code' => $class->class_code,
+                    'progress' => $progress,
+                    'completed_modules' => $completedModules,
+                    'total_modules' => $totalModules,
+                ];
+            });
     }
-
-    // // Join Class
-    // public function joinClass($classCode)
-    // {
-    //     $class = ClassroomModel::where('class_code', $classCode)->first();
-
-
-    //     if (! $class) {
-    //         $this->dispatch('show-toast', ['message' => 'Invalid class code', 'type' => 'error']);
-    //         return;
-    //     }
-
-    //     if ($class->users()->where('user_id', Auth::id())->exists()) {
-    //         $this->dispatch('show-toast', ['message' => 'Already joined', 'type' => 'error']);
-    //         return;
-    //     }
-
-    //     $class->users()->attach(Auth::id());
-    //     $this->classData = Auth::user()->fresh()->classrooms;
-
-    //     $this->dispatch('show-toast', ['message' => 'Successfully joined class', 'type' => 'success']);
-    //     $this->dispatch('close-modal'); // close the modal
-    // }
 
     public function joinClass($payload)
     {
@@ -104,26 +130,6 @@ class Classroom extends Component
             ]
         ]);
     }
-    // public function show($slug)
-    // {
-    //     $class = ClassroomModel::where('slug', $slug)
-    //         ->firstOrFail();
-    //     // $this->title = "Detail Kelas";
-    //     // $this->dispatch(
-    //     //     'setHeader',
-    //     //     mode: 'DEFAULT',
-    //     //     data: [
-    //     //         'title' => $this->title,
-    //     //         'level' => 19,
-    //     //         'rank' => 1,
-    //     //         'xp'    => 50
-    //     //     ]
-    //     // );
-    //     return view('livewire.courses.class-show', [
-    //         'class' => $class,
-    //         'title' => 'Detail Kelas',
-    //     ]);
-    // }
     public function getRouteKeyName()
     {
         return 'slug';

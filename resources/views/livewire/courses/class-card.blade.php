@@ -11,6 +11,7 @@
                 </div>
 
                 {{-- Progress Bar --}}
+                <span class="font-merriweather text-xs text-right mb-1">{{ $class['completed_modules'] }}/{{ $class['total_modules'] }} Modul</span>
                 <div class="w-full bg-gray-200 rounded-full h-3 min-w-[70px] mb-4">
                     <div class="h-3 rounded-full transition-all bg-primary-300" style="width: {{ $class['progress'] ?? 10 }}%"></div>
                 </div>
