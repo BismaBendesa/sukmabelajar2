@@ -1,4 +1,4 @@
-<div class="flex gap-10 px-4 justify-between border-t border-neutral-300 py-2 bg-white fixed bottom-0 left-0 right-0 shadow-up lg:hidden">
+<div class="flex gap-10 px-4 justify-between border-t border-neutral-300 py-2 bg-white fixed bottom-0 left-0 right-0 shadow-up lg:hidden z-99">
     {{-- Dashboard Link --}}
     <a href="/dashboard/mahasiswa" class="flex flex-col justify-center items-center w-[72px]">
         @if(request()->is('dashboard*'))

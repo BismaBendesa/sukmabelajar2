@@ -28,7 +28,7 @@
 
         {{-- tab-bar --}}
         @if($showNavbar ?? true)
-            <x-tab-bar></x-tab-bar>
+            <x-tab-bar class="fixed bottom-0 right-0 left-0"></x-tab-bar>
         @endif
         @livewireScripts
     </body>
