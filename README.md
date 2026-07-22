@@ -1,59 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Sukmabelajar2
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern Learning Management System (LMS) built with Laravel for managing classrooms, learning materials, quizzes, and student progress.
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+📖 Overview
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Sukmabelajar2 is a web-based Learning Management System (LMS) developed as a university thesis project.
 
-## Laravel Sponsors
+The system enables instructors to organize learning content while allowing students to access materials, complete assessments, and monitor their learning progress.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Key Features
+Authentication
+Role-based Authorization
+Classroom Management
+Module Management
+Learning Materials
+Quiz / Test Module
+Student Progress Tracking
+Dashboard
+Admin Panel
+Responsive Interface
+🛠 Tech Stack
 
-### Premium Partners
+Backend
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Laravel
+PHP 8.3
+MySQL
 
-## Contributing
+Frontend
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Blade
+Tailwind CSS
+Livewire
+Vite
 
-## Code of Conduct
+Development
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Composer
+npm
+Git
+📂 Project Structure
+app/
+bootstrap/
+config/
+database/
+public/
+resources/
+routes/
+storage/
+tests/
+⚙ Requirements
+PHP 8.3+
+Composer
+Node.js 20+
+npm
+MySQL 8+
+Git
+🚀 Installation
+git clone https://github.com/BismaBendesa/sukmabelajar2.git
 
-## Security Vulnerabilities
+cd sukmabelajar2
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Install dependencies
 
-## License
+composer install
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+npm install
+
+Create environment
+
+cp .env.example .env
+
+Generate key
+
+php artisan key:generate
+
+Configure database
+
+DB_DATABASE=sukmabelajar2
+DB_USERNAME=root
+DB_PASSWORD=
+
+Run migration
+
+php artisan migrate
+
+Seed database (if available)
+
+php artisan db:seed
+
+Create storage symlink
+
+php artisan storage:link
+
+Start development servers
+
+Terminal 1
+
+php artisan serve
+
+Terminal 2
+
+npm run dev
+
+Application
+
+http://127.0.0.1:8000
+👥 Default Roles
+Role	Description
+Admin	Full system administration
+Instructor	Manage classrooms and learning content
+Student	Access enrolled courses and complete activities
+📚 Core Modules
+Classroom
+Create classrooms
+Manage students
+Assign instructors
+Learning Module
+Learning materials
+Attachments
+Video support
+Reading duration
+Assessment
+Multiple choice tests
+Timer support
+Automatic grading
+Progress Tracking
+Material completion
+Quiz completion
+Overall course progress
+🧰 Useful Commands
+php artisan optimize:clear
+php artisan migrate:fresh --seed
+php artisan route:list
+npm run dev
+📷 Screenshots
+docs/images/login.png
+
+docs/images/dashboard.png
+
+docs/images/classroom.png
+
+docs/images/module.png
+
+(Add screenshots as the project evolves.)
+
+🌱 Git Workflow
+main
+│
+├── develop
+│
+├── feature/*
+│
+└── hotfix/*
+🤝 Contributing
+Fork the repository
+Create a feature branch
+Commit your changes
+Push to your fork
+Open a Pull Request
+📄 License
+
+This project is licensed under the MIT License.
+
+👨‍💻 Author
+
+Bisma Bendesa
+
+Computer Science Student — Udayana University
+UI/UX Designer
+Full-stack Laravel Developer
